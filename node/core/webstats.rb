@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2012, Stephen Fewer of Harmony Security (www.harmonysecurity.com)
+# Copyright (c) 2014, Stephen Fewer of Harmony Security (www.harmonysecurity.com)
 # Licensed under a 3 clause BSD license (Please see LICENSE.txt)
 # Source code located at https://github.com/stephenfewer/grinder
 #
@@ -19,8 +19,8 @@ module Grinder
 			JOB_REDUCTION          = 'reduction'
 			
 			VERIFIED_UNKNOWN       = 0
-			VERIFIED_INTERESTING   = 1
-			VERIFIED_UNINTERESTING = 2
+			VERIFIED_UNINTERESTING = 1
+			VERIFIED_INTERESTING   = 2
 			VERIFIED_EXPLOITABLE   = 3
 			
 			def initialize( node, baseurl, key, username=nil, password=nil, https=false )
@@ -125,6 +125,8 @@ module Grinder
 					response = http.request( request )
 				rescue Errno::ETIMEDOUT
 					print_error( "Timeout requesting '#{uri}'." )
+				rescue Errno::ECONNREFUSED
+					print_error( "Connection Refused for '#{uri}'." )
 				end
 				
 				return response
